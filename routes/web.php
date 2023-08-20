@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use \App\Http\Controllers\TagsController;
+use \App\Http\Controllers\QuestionController;
+use \App\Http\Controllers\UserProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/tags',[TagsController::class,'index'])->name('tags.index');
+Route::get('/tags/create',[TagsController::class,'create'])->name('tags.create');
+Route::post('/tags',[TagsController::class,'store'])->name('tags.store');
+Route::get('/tags/{id}/edit',[TagsController::class,'edit'])->name('tags.edit');
+Route::put('/tags/{id}',[TagsController::class,'update'])->name('tags.update');
+Route::delete('/tags/{id}',[TagsController::class,'destroy'])->name('tags.destroy');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','password.confirm'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,3 +39,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('questions',QuestionController::class);
+
+Route::get('profile',[UserProfileController::class,'edit'])
+    ->name('profile')->middleware('auth');
+Route::put('profile',[UserProfileController::class,'update'])
+    ->middleware('auth');
