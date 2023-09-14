@@ -2,18 +2,29 @@
 
 @section('title')
     <div >
-        Questions<a href="{{route('questions.create')}}" class="btn btn-outline-primary btn-sm mx-3">New Question</a>
+        {{ __('Questions')}}<a href="{{route('questions.create')}}" class="btn btn-outline-primary btn-sm mx-3">New Question</a>
     </div>
 @endsection
 
 @section('content')
 
-    @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{session()->get("success")}}
-        </div>
+     <x-alert/>
+{{--     <x-message  type="danger" content="This is a component"/>--}}
 
-    @endif
+{{--     <x-message  type="warning" >--}}
+{{--         <x-slot name="title">--}}
+{{--             Massage title2--}}
+{{--         </x-slot>--}}
+{{--         <h3>Massage Title</h3>--}}
+{{--         <p>Massage Body content</p>--}}
+{{--     </x-message>--}}
+
+{{--    @if(session()->has('success'))--}}
+{{--        <div class="alert alert-success">--}}
+{{--            {{session()->get("success")}}--}}
+{{--        </div>--}}
+
+{{--    @endif--}}
 
     @foreach($questions as $question)
 
@@ -21,9 +32,15 @@
         <div class="card-body">
             <h5 class="card-title"><a href="{{route('questions.show',['question'=>$question->id])}}">{{$question->title}}</h5>
             <div class="text-muted mb-4">
-                Asked:{{$question->created_at->diffForHumans()}},   By:{{$question->user_name}}
+                @lang('Asked'):{{$question->created_at->diffForHumans()}},
+                {{trans('By')}}:{{$question->user->name}} Email: {{$question->user->email}}
+                <br>
+                {{__('Answers')}}:{{$question->answers_count}}
+
             </div>
             <p class="card-text">{{Str::words($question->description,5) }}</p>
+            <div>Tags:{{implode(',',$question->tags->pluck('name')->toArray())}}</div>
+
         </div>
         @if(\Illuminate\Support\Facades\Auth::id()==$question->user_id)
         <div class="card-footer">
@@ -41,6 +58,6 @@
         @endif
     </div>
     @endforeach
-    {{$questions->links()}}
+    {{$questions->withQueryString()->links()}}
 
 @endsection

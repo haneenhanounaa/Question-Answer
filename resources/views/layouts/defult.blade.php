@@ -1,7 +1,13 @@
-<html>
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/headers.css">
+<html lang="App::currentLocale()"  dir="{{App::currentLocale() == 'ar'? 'rtl':'ltr'}}">
+<head >
+    @if(\Illuminate\Support\Facades\App::currentLocale()=='ar' )
+        <link rel="stylesheet" href="{{asset('css/bootstrap.rtl.min.css')}}">
+    @else
+        <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    @endif
+
+
+        <link rel="stylesheet" href="{{asset('css/headers.css')}}">
     <title>{{config('app.name')}}</title>
     @stack('styles')
 </head>
@@ -20,11 +26,24 @@
                     <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                </form>
 
-                <div class="dropdown text-end">
+                <form  action="{{route('questions.index')}}" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" name="search" class="form-control" placeholder="Search..." aria-label="Search">
+                </form>
+                <div class="ms-2 dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="locale">
+                        {{ LaravelLocalization::getCurrentLocaleNative()
+                        }}    </a>
+                    <ul class="dropdown-menu text-small">
+                        @foreach(LaravelLocalization::getSupportedLocales() as $code =>$locale)
+                        <li><a class="dropdown-item" href="{{LaravelLocalization::getLocalizedURL($code)}}">{{$locale['native']}}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+
+            <x-notifications-menu :user="Auth::user()"/>
+
+                <div class="ms-2 dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
@@ -36,6 +55,7 @@
                         <li><a class="dropdown-item" href="#">Sign out</a></li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </header>
@@ -49,6 +69,7 @@
         @yield('content')
 
     </div>
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     @yield('scripts')
 
 </body>

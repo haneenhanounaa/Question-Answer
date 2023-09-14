@@ -1,0 +1,20 @@
+{
+    "Questions": "الأسئلة:",
+    "Asked": "سئل في:",
+    "By":"بواسطة:",
+    "Answers":"الأجابات:",
+    "First Name": "الاسم الاول",
+    "Last Name": "اسم العائلة",
+    "Birthday": "تاريخ الميلاد",
+    "Email Address": "البريد الاكتروني",
+    "Male": "ذكر",
+    "Female": "انثى",
+    "Profile Photo": "صورة الملف الشخصي",
+    "Update Profile": "تعديل الملف الشخصي",
+    "Edit Profile": "تعديل الملف الشخصي",
+    "New Answer": "اجابة جديدة",
+    "View Answer": "عرض الاجابة",
+    "':user add answer to your question \":question\"'": " قام user: بالاجابة على سؤالك \"question:\" "
+
+
+}

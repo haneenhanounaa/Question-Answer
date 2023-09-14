@@ -29,6 +29,25 @@
             </div>
         </div>
 
+
+        <div class="form-group mb-3">
+            <label for="">Tags</label>
+            <div>
+                @foreach($tags as $tag )
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="tags[]" value="{{$tag->id}}" id="{{$tag->id}}"
+                               @if(in_array($tag->id ,$question_tags))
+                                   checked
+                               @endif>
+                        <label class="form-check-label" for=" tag-{{$tag->id}}">
+                            {{$tag->name}}
+                        </label>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+
         <div class="form-group">
             <button type="submit"class="btn btn-primary">Update Question</button>
         </div>

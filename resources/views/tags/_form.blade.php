@@ -12,6 +12,7 @@
     @if($update)
         @method('put')
     @endif
+
     <div class="form-group mb-3">
         <label for="name">Tag Name:</label>
         <div class="mt-2">

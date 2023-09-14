@@ -18,4 +18,20 @@ class Question extends Model
 
     }
 
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+    public function tags(){
+
+        return $this->belongsToMany(
+            Tag::class, //Related modle
+            'question_tag', //Pivot table
+            'question_id', //FK for current modle in pivot table
+            'tag_id', //FK for related modle in pivot table
+            'id', //PK for current modle
+            'id' //PK for related modle
+
+        );
+    }
+
 }

@@ -9,8 +9,14 @@ class Answer extends Model
 {
     use HasFactory;
 
+    protected $fillable=['question_id','user_id','description'];
+
     // Reverse one to many
     public function question(){
         return $this->belongsTo(Question::class,'question_id','id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }
