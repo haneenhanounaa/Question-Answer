@@ -42,20 +42,29 @@
                 </div>
 
             <x-notifications-menu :user="Auth::user()"/>
-
+                @auth
                 <div class="ms-2 dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+
+                        @if(\Illuminate\Support\Facades\Auth::user()->profile_photo_path)
+                            <img src="{{\Illuminate\Support\Facades\Auth::user()->profile_photo_path}}" alt="mdo" width="32" height="32" class="rounded-circle">
+                        @else
+                            <img src="https://ui-avatars.com/api/?name={{\Illuminate\Support\Facades\Auth::user()->name}}" alt="mdo" width="32" height="32" class="rounded-circle">
+                        @endif
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{route('profile')}}">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+
+                        <li><a class="dropdown-item" onclick="document.getElementById('logout').submit()" href="javascript:;">Sign out</a></li>
+                        <form action="{{route('logout')}}" id="logout" style="display: none;" method="post">
+                            @csrf
+                        </form>
                     </ul>
                 </div>
-
+                @else
+                <a href="{{route('login')}}">{{__('Login')}}</a>
+                @endauth
             </div>
         </div>
     </header>
